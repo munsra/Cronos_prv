@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 rootProject.name = "Cronos"
 include(":app")
 include(":core")
+include(":core-ui")

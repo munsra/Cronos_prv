@@ -1,4 +1,4 @@
-package it.pierosilvestri.cronos.ui.theme
+package it.pierosilvestri.core_ui.theme
 
 import androidx.compose.ui.graphics.Color
 
