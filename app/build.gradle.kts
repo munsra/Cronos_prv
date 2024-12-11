@@ -56,6 +56,7 @@ dependencies {
 
     implementation(project(libs.versions.core.module.get()))
     implementation(project(libs.versions.core.ui.module.get()))
+    implementation(project(libs.versions.stopwatch.presentation.module.get()))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

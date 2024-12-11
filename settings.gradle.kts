@@ -23,3 +23,7 @@ rootProject.name = "Cronos"
 include(":app")
 include(":core")
 include(":core-ui")
+include(":stopwatch")
+include(":stopwatch:stopwatch_presentation")
+include(":stopwatch:stopwatch_domain")
+include(":stopwatch:stopwatch_data")

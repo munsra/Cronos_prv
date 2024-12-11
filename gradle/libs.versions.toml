@@ -15,9 +15,11 @@ appcompat = "1.7.0"
 material = "1.12.0"
 koin = "4.1.0-Beta1"
 ktor = "3.0.2"
+jetbrainsKotlinJvm = "2.0.21"
 
 core-module = ":core"
 core-ui-module = ":core-ui"
+stopwatch-presentation-module = ":stopwatch:stopwatch_presentation"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -55,6 +57,7 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
+jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
 
 [bundles]
 koin = [
