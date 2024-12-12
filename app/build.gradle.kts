@@ -49,13 +49,15 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.navigation.compose)
 
     implementation(project.dependencies.platform(libs.koin.bom))
-    implementation(libs.bundles.koin)
     implementation(libs.bundles.ktor)
+    implementation(libs.bundles.koin)
 
     implementation(project(libs.versions.core.module.get()))
     implementation(project(libs.versions.core.ui.module.get()))
+    implementation(project(libs.versions.stopwatch.domain.module.get()))
     implementation(project(libs.versions.stopwatch.presentation.module.get()))
 
     testImplementation(libs.junit)
@@ -65,6 +67,4 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-
-
 }

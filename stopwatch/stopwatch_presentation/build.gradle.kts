@@ -47,6 +47,12 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.bundles.koin)
+
+    implementation(project(libs.versions.stopwatch.domain.module.get()))
+    implementation(project(libs.versions.core.ui.module.get()))
+
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -16,10 +16,12 @@ material = "1.12.0"
 koin = "4.1.0-Beta1"
 ktor = "3.0.2"
 jetbrainsKotlinJvm = "2.0.21"
+navigation = "2.8.5"
 
 core-module = ":core"
 core-ui-module = ":core-ui"
 stopwatch-presentation-module = ":stopwatch:stopwatch_presentation"
+stopwatch-domain-module = ":stopwatch:stopwatch_domain"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -29,6 +31,7 @@ androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-co
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version = "navigation"}
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
