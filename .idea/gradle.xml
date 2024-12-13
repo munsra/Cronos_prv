@@ -13,6 +13,10 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/core-ui" />
+            <option value="$PROJECT_DIR$/leaderboard" />
+            <option value="$PROJECT_DIR$/leaderboard/leaderboard_data" />
+            <option value="$PROJECT_DIR$/leaderboard/leaderboard_domain" />
+            <option value="$PROJECT_DIR$/leaderboard/leaderboard_presentation" />
             <option value="$PROJECT_DIR$/stopwatch" />
             <option value="$PROJECT_DIR$/stopwatch/stopwatch_data" />
             <option value="$PROJECT_DIR$/stopwatch/stopwatch_domain" />

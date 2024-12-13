@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SonarLintProjectSettings">
+    <option name="moduleMapping">
+      <map>
+        <entry key="Cronos" value="Cronos" />
+        <entry key="Cronos.app" value="Cronos.app" />
+        <entry key="Cronos.app.androidTest" value="Cronos.app.androidTest" />
+        <entry key="Cronos.app.main" value="Cronos.app.main" />
+        <entry key="Cronos.app.unitTest" value="Cronos.app.unitTest" />
+        <entry key="Cronos.core" value="Cronos.core" />
+        <entry key="Cronos.core-ui" value="Cronos.core-ui" />
+        <entry key="Cronos.core-ui.androidTest" value="Cronos.core-ui.androidTest" />
+        <entry key="Cronos.core-ui.main" value="Cronos.core-ui.main" />
+        <entry key="Cronos.core-ui.unitTest" value="Cronos.core-ui.unitTest" />
+        <entry key="Cronos.core.androidTest" value="Cronos.core.androidTest" />
+        <entry key="Cronos.core.main" value="Cronos.core.main" />
+        <entry key="Cronos.core.unitTest" value="Cronos.core.unitTest" />
+        <entry key="Cronos.stopwatch" value="Cronos.stopwatch" />
+        <entry key="Cronos.stopwatch.stopwatch_data" value="Cronos.stopwatch.stopwatch_data" />
+        <entry key="Cronos.stopwatch.stopwatch_data.androidTest" value="Cronos.stopwatch.stopwatch_data.androidTest" />
+        <entry key="Cronos.stopwatch.stopwatch_data.main" value="Cronos.stopwatch.stopwatch_data.main" />
+        <entry key="Cronos.stopwatch.stopwatch_data.unitTest" value="Cronos.stopwatch.stopwatch_data.unitTest" />
+        <entry key="Cronos.stopwatch.stopwatch_domain" value="Cronos.stopwatch.stopwatch_domain" />
+        <entry key="Cronos.stopwatch.stopwatch_domain.androidTest" value="Cronos.stopwatch.stopwatch_domain.androidTest" />
+        <entry key="Cronos.stopwatch.stopwatch_domain.main" value="Cronos.stopwatch.stopwatch_domain.main" />
+        <entry key="Cronos.stopwatch.stopwatch_domain.unitTest" value="Cronos.stopwatch.stopwatch_domain.unitTest" />
+        <entry key="Cronos.stopwatch.stopwatch_presentation" value="Cronos.stopwatch.stopwatch_presentation" />
+        <entry key="Cronos.stopwatch.stopwatch_presentation.androidTest" value="Cronos.stopwatch.stopwatch_presentation.androidTest" />
+        <entry key="Cronos.stopwatch.stopwatch_presentation.main" value="Cronos.stopwatch.stopwatch_presentation.main" />
+        <entry key="Cronos.stopwatch.stopwatch_presentation.unitTest" value="Cronos.stopwatch.stopwatch_presentation.unitTest" />
+      </map>
+    </option>
+  </component>
+</project>
