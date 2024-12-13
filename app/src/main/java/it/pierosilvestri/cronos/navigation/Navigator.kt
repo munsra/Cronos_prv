@@ -10,6 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import it.pierosilvestri.leaderboard_presentation.leaderboard.LeaderboardScreenRoot
 import it.pierosilvestri.stopwatch_presentation.stopwatch.StopwatchScreenRoot
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -18,8 +19,11 @@ fun Navigator(){
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = Route.STOPWATCH
+        startDestination = Route.LEADERBOARD
     ) {
+        composable(Route.LEADERBOARD) {
+            LeaderboardScreenRoot()
+        }
         composable(Route.STOPWATCH) {
             StopwatchScreenRoot()
         }
