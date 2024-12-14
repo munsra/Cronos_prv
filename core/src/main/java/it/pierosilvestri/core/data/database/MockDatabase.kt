@@ -10,12 +10,8 @@ import it.pierosilvestri.core.domain.model.Player
 import it.pierosilvestri.core.domain.model.Session
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.flow
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.decodeFromJsonElement
-import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 
 class MockDatabase {
@@ -30,8 +26,12 @@ class MockDatabase {
         }
     }
 
-    fun getAllamPlayers(): Flow<List<Player>> {
+    fun getAllPlayers(): Flow<List<Player>> {
         return players
+    }
+
+    fun getPlayer(playerId: String): Player? {
+        return players.value.find { it.id == playerId }
     }
 
     fun addPlayer(player: Player) {
@@ -40,13 +40,7 @@ class MockDatabase {
         players.value = currentList
     }
 
-    fun addPlayers(players: List<Player>) {
-        for (player in players) {
-            addPlayer(player)
-        }
-    }
-
-    suspend fun addSession(session: Session, player: Player) {
+    fun addSession(session: Session, player: Player) {
         val sessions = mutableListOf<Session>()
         if (player.sessions != null) {
             sessions.addAll(player.sessions!!)
@@ -55,7 +49,18 @@ class MockDatabase {
         player.sessions = sessions.toList()
     }
 
-    suspend fun addLap(lap: Lap, session: Session, player: Player) {
+    fun getSession(sessionId: String): Session? {
+        for (player in players.value) {
+            for (session in player.sessions!!) {
+                if (session.id == sessionId) {
+                    return session
+                }
+            }
+        }
+        return null
+    }
+
+    fun addLap(lap: Lap, session: Session, player: Player) {
         val laps = mutableListOf<Lap>()
         if (session.laps != null) {
             laps.addAll(session.laps!!)

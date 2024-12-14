@@ -50,10 +50,12 @@ dependencies {
     implementation(libs.bundles.koin)
 
     implementation(project(libs.versions.stopwatch.domain.module.get()))
+    implementation(project(libs.versions.core.module.get()))
     implementation(project(libs.versions.core.ui.module.get()))
 
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    debugImplementation(libs.ui.tooling)
 }

@@ -4,23 +4,45 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import it.pierosilvestri.core.R
+import it.pierosilvestri.core.domain.model.Player
+import it.pierosilvestri.core.domain.model.Session
+import it.pierosilvestri.leaderboard_presentation.leaderboard.components.NewSessionDialog
+
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun LeaderboardScreenRoot(viewModel: LeaderboardViewModel = koinViewModel()) {
+fun LeaderboardScreenRoot(
+    viewModel: LeaderboardViewModel = koinViewModel(),
+    onNextClick: (player: Player, session: Session) -> Unit
+) {
 
     val state by viewModel.state.collectAsStateWithLifecycle()
+    LaunchedEffect(key1 = true,){
+        viewModel.uiEvent.collect {
+            when(it) {
+                is LeaderboardEvent.OpenNextPage -> {
+                    onNextClick(it.player, it.session)
+                }
+                else -> Unit
+            }
+        }
+    }
 
     LeaderboardScreen(
         state = state,
@@ -35,7 +57,6 @@ fun LeaderboardScreen(
     state: LeaderboardState,
     onAction: (LeaderboardAction) -> Unit,
 ) {
-
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
@@ -43,7 +64,10 @@ fun LeaderboardScreen(
                     onAction(LeaderboardAction.OpenNewSession)
                 }
             ) {
-                Text("Premi qua")
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = stringResource(R.string.add_new_session)
+                )
             }
         },
         topBar = {
@@ -66,5 +90,40 @@ fun LeaderboardScreen(
                }
             }
         }
+
+        if (state.isNewSessionDialogOpen) {
+            NewSessionDialog(
+                players = state.players,
+                onDismissRequest = { onAction(LeaderboardAction.DismissNewSessionDialog) },
+                onConfirmation = { player, session ->
+                    onAction(LeaderboardAction.ConfirmNewSession(player, session))
+                }
+            )
+        }
     }
+}
+
+@Preview
+@Composable
+fun LeaderboardScreenPreview() {
+    val state = LeaderboardState(
+        leaders = listOf(
+            Player(
+                id = "a",
+                fullname = "Piero Silvestri",
+                sessions = null,
+                pictures = null,
+            ),
+            Player(
+                id = "b",
+                fullname = "Piero Silvestri",
+                sessions = null,
+                pictures = null
+            )
+        )
+    )
+    LeaderboardScreen(
+        state = state,
+        onAction = {}
+    )
 }

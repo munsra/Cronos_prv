@@ -9,5 +9,6 @@ import kotlinx.coroutines.flow.Flow
  */
 interface PlayerRepository {
     fun getPlayers(): Flow<List<Player>>
+    suspend fun getPlayer(playerId: String): Player?
     suspend fun addPlayer(player: Player)
 }

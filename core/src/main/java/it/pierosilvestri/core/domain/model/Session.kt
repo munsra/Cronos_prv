@@ -5,7 +5,8 @@ import java.util.Date
 
 @Serializable
 data class Session(
-    val distance: Double,
+    val id: String,
+    val distance: Int,
     val startDate: Long,
     var laps: List<Lap>?
 )

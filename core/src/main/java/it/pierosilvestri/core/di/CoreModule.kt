@@ -8,12 +8,14 @@ import org.koin.core.module.Module
 import org.koin.dsl.module
 import it.pierosilvestri.core.data.repository.mock.MockPlayerRepositoryImpl
 import it.pierosilvestri.core.data.repository.mock.MockSessionRepositoyImpl
-import org.koin.android.ext.koin.androidContext
+import it.pierosilvestri.core.data.repository.mock.MockLapRepositoryImpl
+import it.pierosilvestri.core.domain.repository.LapRepository
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 
 val coreModule: Module = module {
     single { MockDatabase() }
     singleOf(::MockPlayerRepositoryImpl).bind<PlayerRepository>()
-    single<SessionRepository> { MockSessionRepositoyImpl() }
+    singleOf(::MockSessionRepositoyImpl).bind<SessionRepository>()
+    singleOf(::MockLapRepositoryImpl).bind<LapRepository>()
 }

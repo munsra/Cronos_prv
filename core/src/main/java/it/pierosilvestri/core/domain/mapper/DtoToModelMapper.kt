@@ -16,6 +16,7 @@ import java.util.Date
 
 fun PlayerDto.toPlayer(): Player {
     return Player (
+        id = id,
         fullname = fullname,
         pictures = pictures?.toPlayerPictures(),
         sessions = sessions?.map { it.toSession() }
@@ -32,6 +33,7 @@ fun PlayerPicturesDto.toPlayerPictures(): PlayerPictures {
 
 fun SessionDto.toSession(): Session {
     return Session (
+        id = id,
         distance = distance,
         startDate = 0L, //startDate,
         laps = laps?.map { it.toLap() }

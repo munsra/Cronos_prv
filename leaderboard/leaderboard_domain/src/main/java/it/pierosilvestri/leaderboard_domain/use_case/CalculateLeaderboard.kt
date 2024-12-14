@@ -17,8 +17,4 @@ class CalculateLeaderboard {
         }
         return list
     }
-
-    data class LeaderboardResult(
-        val leaders: List<Player>
-    )
 }

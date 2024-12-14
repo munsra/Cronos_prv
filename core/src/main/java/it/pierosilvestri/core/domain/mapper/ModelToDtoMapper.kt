@@ -11,6 +11,7 @@ import it.pierosilvestri.core.domain.model.Session
 
 fun Player.toPlayerDto(): PlayerDto {
     return PlayerDto(
+        id = id,
         fullname = fullname,
         pictures = pictures?.toPlayerPicturesDto(),
         sessions = sessions?.map { it.toSessionDto() }
@@ -27,6 +28,7 @@ fun PlayerPictures.toPlayerPicturesDto(): PlayerPicturesDto {
 
 fun Session.toSessionDto(): SessionDto {
     return SessionDto(
+        id = id,
         distance = distance,
         startDate = startDate.toString(),
         laps = laps?.map { it.toLapDto() }

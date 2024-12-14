@@ -1,12 +1,18 @@
 package it.pierosilvestri.core.data.repository.mock
 
+import it.pierosilvestri.core.data.database.MockDatabase
+import it.pierosilvestri.core.domain.model.Player
 import it.pierosilvestri.core.domain.model.Session
 import it.pierosilvestri.core.domain.repository.SessionRepository
 
-class MockSessionRepositoyImpl: SessionRepository {
-
-    override fun insertSession(session: Session) {
-        TODO("Not yet implemented")
+class MockSessionRepositoyImpl(
+    private val mockDatabase: MockDatabase
+): SessionRepository {
+    override suspend fun getSession(sessionId: String): Session? {
+        return mockDatabase.getSession(sessionId)
     }
 
+    override fun addSession(session: Session, player: Player) {
+        mockDatabase.addSession(session, player)
+    }
 }

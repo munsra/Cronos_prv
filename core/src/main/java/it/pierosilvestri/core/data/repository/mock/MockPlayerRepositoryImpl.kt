@@ -10,7 +10,11 @@ class MockPlayerRepositoryImpl(
 ): PlayerRepository {
 
     override fun getPlayers(): Flow<List<Player>> {
-        return mockDatabase.getAllamPlayers()
+        return mockDatabase.getAllPlayers()
+    }
+
+    override suspend fun getPlayer(playerId: String): Player? {
+        return mockDatabase.getPlayer(playerId)
     }
 
     override suspend fun addPlayer(player: Player) {

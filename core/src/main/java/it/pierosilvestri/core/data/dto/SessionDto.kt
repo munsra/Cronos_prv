@@ -5,7 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class SessionDto(
-    val distance: Double,
+    val id: String,
+    val distance: Int,
     @SerialName("session_date") val startDate: String,
     val laps: List<LapDto>?
 )
