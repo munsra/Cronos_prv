@@ -1,8 +1,8 @@
-package it.pierosilvestri.core.domain.model
+package it.pierosilvestri.core.data.dto
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Lap(
+data class LapDto(
     val totalTime: Long
 )

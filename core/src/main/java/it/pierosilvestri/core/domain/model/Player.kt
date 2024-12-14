@@ -1,9 +1,10 @@
 package it.pierosilvestri.core.domain.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Player(
-    val name: String,
-    val surname: String,
-    val title: String,
-    val pictures: List<PlayerPictures>?,
-    val sessions: List<Session>?,
+    val fullname: String,
+    val pictures: PlayerPictures?,
+    var sessions: List<Session>?,
 )
