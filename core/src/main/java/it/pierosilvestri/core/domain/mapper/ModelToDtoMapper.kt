@@ -9,6 +9,9 @@ import it.pierosilvestri.core.domain.model.Player
 import it.pierosilvestri.core.domain.model.PlayerPictures
 import it.pierosilvestri.core.domain.model.Session
 
+/**
+ * This is a mapper where I can convert my Model data to Dto.
+ */
 fun Player.toPlayerDto(): PlayerDto {
     return PlayerDto(
         id = id,

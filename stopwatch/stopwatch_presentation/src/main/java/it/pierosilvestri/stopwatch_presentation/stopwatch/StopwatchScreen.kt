@@ -9,11 +9,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -29,16 +29,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import it.pierosilvestri.core.domain.model.Lap
 import it.pierosilvestri.core.domain.model.Player
 import it.pierosilvestri.core.domain.model.Session
 import it.pierosilvestri.core_ui.theme.Blue
+import it.pierosilvestri.core_ui.theme.Green
 import it.pierosilvestri.core_ui.theme.Light
 import it.pierosilvestri.core_ui.theme.Red
 import it.pierosilvestri.stopwatch_domain.utils.StopwatchState
+import it.pierosilvestri.stopwatch_presentation.stopwatch.mapper.toLapString
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -100,7 +102,9 @@ fun StopwatchScreen(
                 )
             }
             Row(
-                modifier = Modifier.fillMaxWidth().weight(weight = 1f),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(weight = 2f),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -127,27 +131,27 @@ fun StopwatchScreen(
                 )
             }
             Row(
-                modifier = Modifier.weight(weight = 1f),
+                modifier = Modifier.weight(weight = 2f),
                 horizontalArrangement = Arrangement.Center,
             ) {
                 Button(
                     modifier = Modifier
                         .weight(1f)
-                        .fillMaxHeight(0.8f),
+                        .fillMaxHeight(0.5f),
                     onClick = {
                         when (state.stopwatchState) {
-                            StopwatchState.Started -> onAction(StopwatchAction.OnStop)
-                            StopwatchState.Stopped -> onAction(StopwatchAction.OnStart)
+                            StopwatchState.Started -> onAction(StopwatchAction.OnLap)
+                            StopwatchState.Stopped -> onAction(StopwatchAction.OnResume)
                             StopwatchState.Idle -> onAction(StopwatchAction.OnStart)
                             else -> Unit
                         }
                     }, colors = ButtonDefaults.buttonColors(
-                        containerColor = if (state.stopwatchState == StopwatchState.Started) Red else Blue,
+                        containerColor = if (state.stopwatchState == StopwatchState.Started) Blue else Green,
                         contentColor = Color.White
                     )
                 ) {
                     when (state.stopwatchState) {
-                        StopwatchState.Started -> Text("Stop")
+                        StopwatchState.Started -> Text("Lap")
                         StopwatchState.Stopped -> Text("Resume")
                         else -> Text("Start")
                     }
@@ -156,52 +160,64 @@ fun StopwatchScreen(
                 Button(
                     modifier = Modifier
                         .weight(1f)
-                        .fillMaxHeight(0.8f),
+                        .fillMaxHeight(0.5f),
                     onClick = {
-                        onAction(StopwatchAction.OnReset)
+                        when (state.stopwatchState) {
+                            StopwatchState.Started -> onAction(StopwatchAction.OnStop)
+                            StopwatchState.Stopped -> onAction(StopwatchAction.OnReset)
+                            else -> Unit
+                        }
                     },
-                    enabled = state.centiseconds != "00" && state.stopwatchState == StopwatchState.Stopped,
-                    colors = ButtonDefaults.buttonColors(disabledContainerColor = Light)
-                ) {
-                    Text(
-                        text = "Cancel",
-                        style = if (state.centiseconds != "00" && state.stopwatchState == StopwatchState.Stopped) TextStyle(
-                            color = Color.White
-                        ) else TextStyle(color = Color.Gray),
+                    enabled = state.stopwatchState != StopwatchState.Canceled && state.stopwatchState != StopwatchState.Idle,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = if (state.stopwatchState == StopwatchState.Started) Red else Light,
+                        disabledContainerColor = Light
                     )
+                ) {
+                    when (state.stopwatchState) {
+                        StopwatchState.Started ->
+                            Text(
+                                text = "Stop",
+                                style = TextStyle(color = Color.White),
+                            )
+
+                        StopwatchState.Stopped ->
+                            Text(
+                                text = "Reset",
+                                style = TextStyle(color = Color.White),
+                            )
+                        else -> Text(
+                            text = "Cancel",
+                            style = TextStyle(color = Color.Gray),
+                        )
+                    }
                 }
             }
             Row(
-                modifier = Modifier.weight(weight = 1f),
+                modifier = Modifier.weight(weight = 4f),
                 horizontalArrangement = Arrangement.Center,
             ) {
-                Card(
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
-                    ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                ) {
-                    Text(
-                        text = "Filled",
+                if(state.laps.isNotEmpty()){
+                    Card(
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        ),
                         modifier = Modifier
-                            .padding(16.dp),
-                        textAlign = TextAlign.Center,
-                        style = TextStyle(
-                            fontSize = MaterialTheme.typography.headlineMedium.fontSize,
-                            fontWeight = FontWeight.Bold,
-                        )
-                    )
-                    LazyColumn {
-                        items(4){
-                            Text(text = "laps",
-                                modifier = Modifier
-                                    .padding(16.dp),
-                                textAlign = TextAlign.Center,
-                                style = TextStyle(
-                                    fontSize = MaterialTheme.typography.bodyLarge.fontSize,
-                                    fontWeight = FontWeight.Bold,
-                                ))
+                            .fillMaxWidth()
+                    ) {
+                        LazyColumn {
+                            itemsIndexed(state.laps.sortedByDescending { it.datetime }) { index, lap ->
+                                Text(
+                                    text ="Lap ${state.laps.size - index} : ${lap.totalTime.toLapString()}",
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(16.dp),
+                                    style = TextStyle(
+                                        fontSize = MaterialTheme.typography.bodyLarge.fontSize,
+                                        fontWeight = FontWeight.Bold,
+                                    )
+                                )
+                            }
                         }
                     }
                 }
@@ -217,8 +233,8 @@ fun PreviewStopwatchScreen() {
         isLoading = false,
         minutes = "00",
         seconds = "00",
-        centiseconds = "00",
-        stopwatchState = StopwatchState.Idle,
+        centiseconds = "01",
+        stopwatchState = StopwatchState.Canceled,
         player = Player(
             id = "a",
             fullname = "Piero Silvestri",
@@ -228,13 +244,17 @@ fun PreviewStopwatchScreen() {
         session = Session(
             id = "s",
             distance = 1000,
-            laps = emptyList(),
+            laps = null,
             startDate = 0L
+        ),
+        laps = listOf(
+            Lap(60, 50L),
+            Lap(1000, 51L),
         ),
     )
 
     StopwatchScreen(
-        state  = state,
+        state = state,
         onAction = {}
     )
 }

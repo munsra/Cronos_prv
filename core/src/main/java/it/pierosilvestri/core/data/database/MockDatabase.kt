@@ -14,6 +14,10 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.jsonObject
 
+/**
+ * This will be the singleton having the players records.
+ * This class should be replaced by a database.
+ */
 class MockDatabase {
     private val players = MutableStateFlow<List<Player>>(emptyList())
 

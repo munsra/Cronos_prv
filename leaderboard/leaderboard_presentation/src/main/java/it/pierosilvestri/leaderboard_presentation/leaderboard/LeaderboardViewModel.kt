@@ -27,6 +27,9 @@ class LeaderboardViewModel(
     val uiEvent = _uiEvent.receiveAsFlow()
 
     init {
+        /**
+         * Get the players from the repository and calculate the leaderboard
+         */
         viewModelScope.launch {
             playerRepository.getPlayers().collect{ players ->
                 // Calculate the leaderboard based on the players list
@@ -42,6 +45,9 @@ class LeaderboardViewModel(
         }
     }
 
+    /**
+     * Handles the actions of the UI
+     */
     fun onAction(action: LeaderboardAction) {
         when (action) {
             LeaderboardAction.OpenNewSession -> {

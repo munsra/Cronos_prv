@@ -8,12 +8,12 @@ import it.pierosilvestri.core.domain.model.Lap
 import it.pierosilvestri.core.domain.model.Player
 import it.pierosilvestri.core.domain.model.PlayerPictures
 import it.pierosilvestri.core.domain.model.Session
+import java.util.Calendar
 import java.util.Date
 
 /**
  * This is a mapper where I can convert my Dto entities to Model data.
  */
-
 fun PlayerDto.toPlayer(): Player {
     return Player (
         id = id,
@@ -42,6 +42,7 @@ fun SessionDto.toSession(): Session {
 
 fun LapDto.toLap(): Lap {
     return Lap (
-        totalTime = totalTime
+        totalTime = totalTime,
+        datetime = Calendar.getInstance().time.time
     )
 }

@@ -4,5 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Lap(
-    val totalTime: Long
+    val totalTime: Long,
+    val datetime: Long
 )

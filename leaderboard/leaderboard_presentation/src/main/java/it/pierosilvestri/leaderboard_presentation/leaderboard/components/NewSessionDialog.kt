@@ -40,7 +40,7 @@ fun NewSessionDialog(
 
     AlertDialog(
         onDismissRequest = { onDismissRequest() },
-        title = { Text(text = "Dialog Title") },
+        title = { Text(text = "New Session") },
         text = {
             if (selectedPlayer == null) {
                 LazyColumn {
