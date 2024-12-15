@@ -36,7 +36,7 @@ fun SessionDto.toSession(): Session {
         id = id,
         distance = distance,
         startDate = 0L, //startDate,
-        laps = laps?.map { it.toLap() }
+        laps = if(laps == null) emptyList() else laps.map { it.toLap() }
     )
 }
 

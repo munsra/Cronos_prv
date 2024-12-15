@@ -8,6 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -19,7 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import it.pierosilvestri.core.R
+import it.pierosilvestri.core.domain.model.Lap
+import it.pierosilvestri.leaderboard_presentation.R
 import it.pierosilvestri.core.domain.model.Player
 import it.pierosilvestri.core.domain.model.Session
 import it.pierosilvestri.leaderboard_presentation.leaderboard.components.NewSessionDialog
@@ -39,7 +41,6 @@ fun LeaderboardScreenRoot(
                 is LeaderboardEvent.OpenNextPage -> {
                     onNextClick(it.player, it.session)
                 }
-                else -> Unit
             }
         }
     }
@@ -109,15 +110,39 @@ fun LeaderboardScreenPreview() {
     val state = LeaderboardState(
         leaders = listOf(
             Player(
-                id = "a",
+                id = "1",
                 fullname = "Piero Silvestri",
-                sessions = null,
+                sessions = listOf(
+                    Session(
+                        id = "1",
+                        distance = 1000,
+                        startDate = 10L,
+                        laps = listOf(
+                            Lap(
+                                totalTime = 1000,
+                                datetime = 1
+                            )
+                        )
+                    )
+                ),
                 pictures = null,
             ),
             Player(
-                id = "b",
+                id = "2",
                 fullname = "Piero Silvestri",
-                sessions = null,
+                sessions = listOf(
+                    Session(
+                        id = "1",
+                        distance = 1000,
+                        startDate = 10L,
+                        laps = listOf(
+                            Lap(
+                                totalTime = 1000,
+                                datetime = 1
+                            )
+                        )
+                    )
+                ),
                 pictures = null
             )
         )

@@ -15,4 +15,8 @@ class MockSessionRepositoyImpl(
     override fun addSession(session: Session, player: Player) {
         mockDatabase.addSession(session, player)
     }
+
+    override fun deleteSession(session: Session) {
+        mockDatabase.deleteSession(session)
+    }
 }

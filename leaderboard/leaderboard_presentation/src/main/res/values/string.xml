@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="leaderboard_screen_title">Leaderboard</string>
+    <string name="new_session">New Session</string>
+    <string name="distance">Distance</string>
+    <string name="dialog_positive_button">Ok</string>
+    <string name="dialog_negative_button">Cancel</string>
+    <string name="add_new_session">Add new session</string>
+</resources>

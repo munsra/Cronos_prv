@@ -64,6 +64,6 @@ class StopwatchServiceImpl: StopwatchService {
         stopStopwatch()
         duration = Duration.ZERO
         currentState = StopwatchState.Idle
-        callback?.invoke("00", "00", "00", StopwatchState.Idle)
+        callback?.invoke("00", "00", "00", currentState)
     }
 }

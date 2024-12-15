@@ -1,28 +1,40 @@
 package it.pierosilvestri.stopwatch_presentation.stopwatch
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import it.pierosilvestri.core.domain.model.Lap
-import it.pierosilvestri.core.domain.repository.LapRepository
+import it.pierosilvestri.core.domain.model.Player
+import it.pierosilvestri.core.domain.model.Session
 import it.pierosilvestri.core.domain.repository.PlayerRepository
 import it.pierosilvestri.core.domain.repository.SessionRepository
+import it.pierosilvestri.core.util.UiText
 import it.pierosilvestri.stopwatch_domain.services.StopwatchService
+import it.pierosilvestri.stopwatch_presentation.R
+import kotlinx.coroutines.channels.Channel
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 
 class StopwatchViewModel(
+    private val savedStateHandle: SavedStateHandle,
     private val stopwatchService: StopwatchService,
-    private val sessionRepository: SessionRepository,
     private val playerRepository: PlayerRepository,
-    private val lapRepository: LapRepository
+    private val sessionRepository: SessionRepository,
 ) : ViewModel() {
+
+    val playerId = savedStateHandle.get<String>("playerId")
+    val sessionId = savedStateHandle.get<String>("sessionId")
 
     private val _state = MutableStateFlow(StopwatchScreenState())
     val state = _state.asStateFlow()
+
+    private val _uiEvent = Channel<StopwatchEvent>()
+    val uiEvent = _uiEvent.receiveAsFlow()
 
     init {
         stopwatchService.observeTime { m, s, cs, state ->
@@ -42,24 +54,16 @@ class StopwatchViewModel(
     /**
      * Loads the data of the player and the session from the repository
      */
-    fun loadData(playerId: String, sessionId: String) {
-        _state.update {
-            it.copy(
-                isLoading = true
-            )
-        }
+    fun loadData() {
         viewModelScope.launch {
-            playerRepository.getPlayer(playerId)?.let { player ->
-                val session = sessionRepository.getSession(sessionId)
-                val laps = session?.laps
-                _state.update {
-                    it.copy(
-                        player = player,
-                        session = session,
-                        laps = laps ?: emptyList(),
-                        isLoading = false
-                    )
-                }
+            val player = playerRepository.getPlayer(playerId!!)
+            val session = sessionRepository.getSession(sessionId!!)
+            _state.update {
+                it.copy(
+                    player = player,
+                    session = session,
+                    isLoading = false
+                )
             }
         }
     }
@@ -84,7 +88,9 @@ class StopwatchViewModel(
             is StopwatchAction.OnReset -> {
                 _state.update {
                     it.copy(
-                        laps = emptyList()
+                        session = it.session!!.copy(
+                            laps = emptyList()
+                        )
                     )
                 }
                 stopwatchService.resetStopwatch()
@@ -97,10 +103,69 @@ class StopwatchViewModel(
                 )
                 _state.update {
                     it.copy(
-                        laps = it.laps + lap
+                        session = state.value.session!!.copy(
+                            laps = it.session!!.laps.plus(lap)
+                        ),
                     )
                 }
             }
+
+            StopwatchAction.OnBackButtonPressed -> {
+                _state.update {
+                    it.copy(
+                        isConfirmCancelSessionDialogVisible = true,
+                        isConfirmSaveSessionDialogVisible = false,
+                        confirmMessage = UiText.DynamicString("Are you sure you want to cancel the session?")
+                    )
+                }
+            }
+            StopwatchAction.OnSaveButtonPressed -> {
+                _state.update {
+                    it.copy(
+                        isConfirmCancelSessionDialogVisible = false,
+                        isConfirmSaveSessionDialogVisible = true,
+                        confirmMessage = UiText.StringResource(R.string.confirm_save_session_message)
+                    )
+                }
+            }
+
+            StopwatchAction.OnConfirmDialogConfirm -> {
+                if(_state.value.isConfirmSaveSessionDialogVisible){
+                    _state.update {
+                        it.copy(
+                            isConfirmCancelSessionDialogVisible = false,
+                            isConfirmSaveSessionDialogVisible = false,
+                            confirmMessage = null
+                        )
+                    }
+                    saveSession()
+                }else if(_state.value.isConfirmCancelSessionDialogVisible){
+                    deleteSession()
+                }
+            }
+            StopwatchAction.OnConfirmDialogDismiss -> {
+                _state.update {
+                    it.copy(
+                        isConfirmCancelSessionDialogVisible = false,
+                        isConfirmSaveSessionDialogVisible = false,
+                        confirmMessage = null
+                    )
+                }
+            }
+        }
+    }
+
+    private fun deleteSession() {
+        viewModelScope.launch {
+            sessionRepository.deleteSession(_state.value.session!!)
+            _uiEvent.send(StopwatchEvent.NavigateBack)
+        }
+    }
+
+    private fun saveSession() {
+        viewModelScope.launch {
+            sessionRepository.addSession(_state.value.session!!, _state.value.player!!)
+            _uiEvent.send(StopwatchEvent.NavigateBack)
         }
     }
 
@@ -108,7 +173,7 @@ class StopwatchViewModel(
      * Returns the value of the lap in centiseconds
      */
     private fun getCurrentLapTimeFromAllLaps(): Long {
-        val currentTotalLapTime = _state.value.laps.sumOf { it.totalTime }
+        val currentTotalLapTime = _state.value.session!!.laps.sumOf { it.totalTime }
         return _state.value.time - currentTotalLapTime
     }
 
