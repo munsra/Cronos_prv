@@ -22,6 +22,10 @@ class MockDatabase {
     private val players = MutableStateFlow<List<Player>>(emptyList())
 
     init {
+
+    }
+
+    private fun loadPlayersFromMockData(){
         val jsonString = mockData
         val json = Json { ignoreUnknownKeys = true }
         val jsonObject = json.parseToJsonElement(jsonString).jsonObject["players"]

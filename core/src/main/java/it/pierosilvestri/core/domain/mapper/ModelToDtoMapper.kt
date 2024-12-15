@@ -2,6 +2,7 @@ package it.pierosilvestri.core.domain.mapper
 
 import it.pierosilvestri.core.data.dto.LapDto
 import it.pierosilvestri.core.data.dto.PlayerDto
+import it.pierosilvestri.core.data.dto.PlayerNameDto
 import it.pierosilvestri.core.data.dto.PlayerPicturesDto
 import it.pierosilvestri.core.data.dto.SessionDto
 import it.pierosilvestri.core.domain.model.Lap
@@ -15,8 +16,12 @@ import it.pierosilvestri.core.domain.model.Session
 fun Player.toPlayerDto(): PlayerDto {
     return PlayerDto(
         id = id,
-        fullname = fullname,
-        pictures = pictures?.toPlayerPicturesDto(),
+        fullname = PlayerNameDto(
+            title = fullname.split(" ")[0],
+            first = fullname.split(" ")[1],
+            last = fullname.split(" ")[2]
+        ),
+        picture = pictures?.toPlayerPicturesDto(),
         sessions = sessions?.map { it.toSessionDto() }
     )
 }
