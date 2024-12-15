@@ -38,11 +38,10 @@ fun Navigator(){
                 },
             )
         ) {
-            val playerId = it.arguments?.getString("playerId")!!
-            val sessionId = it.arguments?.getString("sessionId")!!
             StopwatchScreenRoot(
-                playerId = playerId,
-                sessionId = sessionId
+                onNavigateBack = {
+                    navController.popBackStack()
+                }
             )
         }
     }

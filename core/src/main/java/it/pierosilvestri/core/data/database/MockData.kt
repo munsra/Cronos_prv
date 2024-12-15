@@ -17,12 +17,15 @@ val mockData = "{\n" +
         "            \"session_date\": \"13 december 2024 12:00\",\n" +
         "            \"laps\": [\n" +
         "                {\n" +
+        "                    \"id\": \"lap1\",\n" +
         "                    \"totalTime\": 34000000\n" +
         "                },\n" +
         "                {\n" +
+        "                    \"id\": \"lap2\",\n" +
         "                    \"totalTime\": 34000000\n" +
         "                },\n" +
         "                {\n" +
+        "                    \"id\": \"lap3\",\n" +
         "                    \"totalTime\": 34000000\n" +
         "                }\n" +
         "            ]\n" +
@@ -33,12 +36,15 @@ val mockData = "{\n" +
         "            \"session_date\": \"14 december 2024 12:00\",\n" +
         "            \"laps\": [\n" +
         "                {\n" +
+        "                    \"id\": \"lap4\",\n" +
         "                    \"totalTime\": 36000000\n" +
         "                },\n" +
         "                {\n" +
+        "                    \"id\": \"lap5\",\n" +
         "                    \"totalTime\": 36000000\n" +
         "                },\n" +
         "                {\n" +
+        "                    \"id\": \"lap6\",\n" +
         "                    \"totalTime\": 36000000\n" +
         "                }\n" +
         "            ]\n" +
@@ -60,6 +66,7 @@ val mockData = "{\n" +
         "              \"session_date\": \"13 december 2024 12:00\",\n" +
         "              \"laps\": [\n" +
         "                  {\n" +
+        "                    \"id\": \"lap7\",\n" +
         "                      \"totalTime\": 34000000\n" +
         "                  }\n" +
         "              ]\n" +

@@ -23,8 +23,9 @@ class MockDatabase {
 
     init {
         val jsonString = mockData
-        val json = Json.parseToJsonElement(jsonString).jsonObject["players"]
-        val playersDto = Json.decodeFromJsonElement<List<PlayerDto>>(json!!)
+        val json = Json { ignoreUnknownKeys = true }
+        val jsonObject = json.parseToJsonElement(jsonString).jsonObject["players"]
+        val playersDto = json.decodeFromJsonElement<List<PlayerDto>>(jsonObject!!)
         for (playerDto in playersDto) {
             addPlayer(playerDto.toPlayer())
         }
@@ -32,10 +33,6 @@ class MockDatabase {
 
     fun getAllPlayers(): Flow<List<Player>> {
         return players
-    }
-
-    fun getPlayer(playerId: String): Player? {
-        return players.value.find { it.id == playerId }
     }
 
     fun addPlayer(player: Player) {
@@ -53,15 +50,18 @@ class MockDatabase {
         player.sessions = sessions.toList()
     }
 
-    fun getSession(sessionId: String): Session? {
-        for (player in players.value) {
-            for (session in player.sessions!!) {
-                if (session.id == sessionId) {
-                    return session
+    fun deleteSession(session: Session) {
+        for(player in players.value){
+            if (player.sessions != null) {
+                for(playerSession in player.sessions!!){
+                    if (playerSession.id == session.id) {
+                        val sessionMutableList = player.sessions!!.toMutableList()
+                        sessionMutableList.remove(session)
+                        player.sessions = sessionMutableList
+                    }
                 }
             }
         }
-        return null
     }
 
     fun addLap(lap: Lap, session: Session, player: Player) {
@@ -72,5 +72,20 @@ class MockDatabase {
         laps.add(lap)
         session.laps = laps.toList()
         addSession(session, player)
+    }
+
+    fun getPlayer(playerId: String): Player? {
+        return players.value.find { it.id == playerId }
+    }
+
+    fun getSession(sessionId: String): Session? {
+        for (player in players.value) {
+            for (session in player.sessions!!) {
+                if (session.id == sessionId) {
+                    return session
+                }
+            }
+        }
+        return null
     }
 }
