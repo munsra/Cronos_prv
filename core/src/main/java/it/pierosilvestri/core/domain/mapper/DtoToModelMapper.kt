@@ -16,9 +16,9 @@ import java.util.Date
  */
 fun PlayerDto.toPlayer(): Player {
     return Player (
-        id = id,
-        fullname = fullname,
-        pictures = pictures?.toPlayerPictures(),
+        id = id ?: "",
+        fullname = fullname.toString(),
+        pictures = picture?.toPlayerPictures(),
         sessions = sessions?.map { it.toSession() }
     )
 }

@@ -3,9 +3,12 @@ package it.pierosilvestri.leaderboard_presentation.leaderboard
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import it.pierosilvestri.core.domain.model.Player
+import it.pierosilvestri.core.domain.onError
+import it.pierosilvestri.core.domain.onSuccess
 import it.pierosilvestri.core.domain.repository.PlayerRepository
 import it.pierosilvestri.core.domain.repository.SessionRepository
 import it.pierosilvestri.core.util.UIEvent
+import it.pierosilvestri.core.util.toUiText
 import it.pierosilvestri.leaderboard_domain.use_case.CalculateLeaderboard
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,11 +16,13 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 class LeaderboardViewModel(
     private val playerRepository: PlayerRepository,
     private val sessionRepository: SessionRepository,
-    private val calculateLeaderboard: CalculateLeaderboard
+    private val calculateLeaderboard: CalculateLeaderboard,
 ): ViewModel() {
 
     private val _state = MutableStateFlow(LeaderboardState())
@@ -76,6 +81,52 @@ class LeaderboardViewModel(
                     )
                 }
             }
+
+            LeaderboardAction.LoadPlayersFromRemote -> {
+                loadPlayerFromRemote()
+            }
+        }
+    }
+
+    /**
+     * Load the players from remote.
+     * Foreach player, I've assigned a random UUID and put them in the database.
+     * This is helpful because I can retrieve the player information from another screen
+     * passing only the id to the database.
+     * Then I'm updating the state with the new players list.
+     */
+    @OptIn(ExperimentalUuidApi::class)
+    private fun loadPlayerFromRemote() {
+        viewModelScope.launch {
+            _state.update {
+                it.copy(
+                    isLoading = true
+                )
+            }
+            playerRepository
+                .getPlayersFromRemote()
+                .onSuccess { playerResults ->
+                    playerResults.forEach {
+                        it.id = Uuid.random().toString()
+                    }
+                    playerRepository.addPlayers(playerResults)
+                    _state.update {
+                        it.copy(
+                            isLoading = false,
+                            errorMessage = null,
+                            players = playerResults
+                        )
+                    }
+                }
+                .onError { error ->
+                    _state.update {
+                        it.copy(
+                            players = emptyList(),
+                            isLoading = false,
+                            errorMessage = error.toUiText()
+                        )
+                    }
+                }
         }
     }
 }

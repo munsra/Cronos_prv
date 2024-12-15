@@ -5,8 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class PlayerDto (
-    val id: String,
-    @SerialName("name") val fullname: String,
-    val pictures: PlayerPicturesDto?,
-    val sessions: List<SessionDto>?
+    val id: String? = null,
+    @SerialName("name") val fullname: PlayerNameDto,
+    val picture: PlayerPicturesDto? = null,
+    val sessions: List<SessionDto>? = null
 )
