@@ -8,7 +8,10 @@ import kotlin.concurrent.fixedRateTimer
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
-class StopwatchServiceImpl: StopwatchSimpleService {
+/**
+ * This is the implementation of the StopwatchService.
+ */
+class StopwatchServiceImpl: StopwatchService {
 
     private lateinit var timer: Timer
 
@@ -20,11 +23,16 @@ class StopwatchServiceImpl: StopwatchSimpleService {
     private var duration: Duration = Duration.ZERO
     private var callback: ((String, String, String, StopwatchState) -> Unit)? = null
 
-
+    /**
+     * Provide a callback to return the time.
+     */
     override fun observeTime(callback: (String, String, String, StopwatchState) -> Unit) {
         this.callback = callback
     }
 
+    /**
+     * Start or resume the timer
+     */
     override fun startStopwatch() {
         timer = fixedRateTimer(initialDelay = 10L, period = 10L) {
             duration = duration.plus(10.milliseconds)
@@ -38,6 +46,9 @@ class StopwatchServiceImpl: StopwatchSimpleService {
         }
     }
 
+    /**
+     * Stop the timer
+     */
     override fun stopStopwatch() {
         if (this::timer.isInitialized) {
             timer.cancel()
@@ -46,11 +57,13 @@ class StopwatchServiceImpl: StopwatchSimpleService {
         callback?.invoke(minutes, seconds, centiseconds, currentState)
     }
 
+    /**
+     * Reset the timer
+     */
     override fun resetStopwatch() {
         stopStopwatch()
         duration = Duration.ZERO
         currentState = StopwatchState.Idle
         callback?.invoke("00", "00", "00", StopwatchState.Idle)
-
     }
 }

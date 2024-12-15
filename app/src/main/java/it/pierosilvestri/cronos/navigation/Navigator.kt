@@ -1,10 +1,7 @@
 package it.pierosilvestri.calorytracker.navigation
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -22,10 +19,31 @@ fun Navigator(){
         startDestination = Route.LEADERBOARD
     ) {
         composable(Route.LEADERBOARD) {
-            LeaderboardScreenRoot()
+            LeaderboardScreenRoot(
+                onNextClick = { player, session ->
+                    navController.navigate(
+                        Route.STOPWATCH + "/${player.id}/${session.id}"
+                    )
+                }
+            )
         }
-        composable(Route.STOPWATCH) {
-            StopwatchScreenRoot()
+        composable(
+            route = Route.STOPWATCH + "/{playerId}/{sessionId}",
+            arguments = listOf(
+                navArgument("playerId") {
+                    type = NavType.StringType
+                },
+                navArgument("sessionId") {
+                    type = NavType.StringType
+                },
+            )
+        ) {
+            val playerId = it.arguments?.getString("playerId")!!
+            val sessionId = it.arguments?.getString("sessionId")!!
+            StopwatchScreenRoot(
+                playerId = playerId,
+                sessionId = sessionId
+            )
         }
     }
 }
