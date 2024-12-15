@@ -25,7 +25,7 @@ class MockDatabase {
 
     }
 
-    private fun loadPlayersFromMockData(){
+    private fun loadPlayersFromMockData() {
         val jsonString = mockData
         val json = Json { ignoreUnknownKeys = true }
         val jsonObject = json.parseToJsonElement(jsonString).jsonObject["players"]
@@ -45,6 +45,12 @@ class MockDatabase {
         players.value = currentList
     }
 
+    fun addPlayers(players: List<Player>) {
+        val currentList = players.toMutableList()
+        currentList.addAll(players)
+        this.players.value = currentList
+    }
+
     fun addSession(session: Session, player: Player) {
         val sessions = mutableListOf<Session>()
         if (player.sessions != null) {
@@ -55,9 +61,9 @@ class MockDatabase {
     }
 
     fun deleteSession(session: Session) {
-        for(player in players.value){
+        for (player in players.value) {
             if (player.sessions != null) {
-                for(playerSession in player.sessions!!){
+                for (playerSession in player.sessions!!) {
                     if (playerSession.id == session.id) {
                         val sessionMutableList = player.sessions!!.toMutableList()
                         sessionMutableList.remove(session)
@@ -84,9 +90,11 @@ class MockDatabase {
 
     fun getSession(sessionId: String): Session? {
         for (player in players.value) {
-            for (session in player.sessions!!) {
-                if (session.id == sessionId) {
-                    return session
+            if(player.sessions != null){
+                for (session in player.sessions!!) {
+                    if (session.id == sessionId) {
+                        return session
+                    }
                 }
             }
         }

@@ -34,4 +34,8 @@ class MockPlayerRepositoryImpl(
     override suspend fun addPlayer(player: Player) {
         mockDatabase.addPlayer(player)
     }
+
+    override suspend fun addPlayers(players: List<Player>) {
+        mockDatabase.addPlayers(players)
+    }
 }

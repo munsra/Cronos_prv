@@ -16,6 +16,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 class LeaderboardViewModel(
     private val playerRepository: PlayerRepository,
@@ -86,6 +88,14 @@ class LeaderboardViewModel(
         }
     }
 
+    /**
+     * Load the players from remote.
+     * Foreach player, I've assigned a random UUID and put them in the database.
+     * This is helpful because I can retrieve the player information from another screen
+     * passing only the id to the database.
+     * Then I'm updating the state with the new players list.
+     */
+    @OptIn(ExperimentalUuidApi::class)
     private fun loadPlayerFromRemote() {
         viewModelScope.launch {
             _state.update {
@@ -96,6 +106,10 @@ class LeaderboardViewModel(
             playerRepository
                 .getPlayersFromRemote()
                 .onSuccess { playerResults ->
+                    playerResults.forEach {
+                        it.id = Uuid.random().toString()
+                    }
+                    playerRepository.addPlayers(playerResults)
                     _state.update {
                         it.copy(
                             isLoading = false,

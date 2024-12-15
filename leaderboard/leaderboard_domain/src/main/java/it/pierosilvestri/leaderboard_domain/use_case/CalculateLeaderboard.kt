@@ -15,6 +15,6 @@ class CalculateLeaderboard {
         for (player in players){
             list.add(player)
         }
-        return list
+        return emptyList()
     }
 }

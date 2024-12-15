@@ -14,4 +14,5 @@ interface PlayerRepository {
     suspend fun getPlayersFromRemote(): Result<List<Player>, DataError.Remote>
     suspend fun getPlayer(playerId: String): Player?
     suspend fun addPlayer(player: Player)
+    suspend fun addPlayers(players: List<Player>)
 }
