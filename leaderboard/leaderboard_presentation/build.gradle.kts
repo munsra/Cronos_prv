@@ -49,6 +49,7 @@ dependencies {
     implementation(libs.androidx.material3)
 
     implementation(libs.bundles.koin)
+    implementation(libs.bundles.coil3)
 
     implementation(project(libs.versions.core.module.get()))
     implementation(project(libs.versions.core.ui.module.get()))

@@ -15,3 +15,5 @@ val Green = Color(0xFF228B22)
 val Red = Color(0xFFe93560)
 val Dark = Color(0xFF0E0D1D)
 val Light = Color(0xFF17162B)
+
+val SandYellow = Color(0xFFFFBD64)

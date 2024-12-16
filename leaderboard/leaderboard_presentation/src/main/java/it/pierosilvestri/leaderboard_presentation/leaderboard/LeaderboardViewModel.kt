@@ -31,10 +31,10 @@ class LeaderboardViewModel(
     private val _uiEvent = Channel<LeaderboardEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
-    init {
-        /**
-         * Get the players from the repository and calculate the leaderboard
-         */
+    /**
+     * Get the players from the repository and calculate the leaderboard
+     */
+    fun setLeaderboard() {
         viewModelScope.launch {
             playerRepository.getPlayers().collect{ players ->
                 // Calculate the leaderboard based on the players list
@@ -114,14 +114,14 @@ class LeaderboardViewModel(
                         it.copy(
                             isLoading = false,
                             errorMessage = null,
-                            players = playerResults
+                            players = it.players + playerResults
                         )
                     }
                 }
                 .onError { error ->
                     _state.update {
                         it.copy(
-                            players = emptyList(),
+                            players = it.players,
                             isLoading = false,
                             errorMessage = error.toUiText()
                         )
