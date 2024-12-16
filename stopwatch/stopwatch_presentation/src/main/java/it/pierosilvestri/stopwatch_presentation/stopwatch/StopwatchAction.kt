@@ -10,4 +10,5 @@ sealed class StopwatchAction {
     data object OnSaveButtonPressed: StopwatchAction()
     data object OnConfirmDialogDismiss: StopwatchAction()
     data object OnConfirmDialogConfirm: StopwatchAction()
+    data class OnTabSelected(val pageIndex: Int): StopwatchAction()
 }

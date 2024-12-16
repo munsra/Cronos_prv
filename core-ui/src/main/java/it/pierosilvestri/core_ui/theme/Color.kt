@@ -17,3 +17,6 @@ val Dark = Color(0xFF0E0D1D)
 val Light = Color(0xFF17162B)
 
 val SandYellow = Color(0xFFFFBD64)
+val DarkBlue = Color(0xFF0B405E)
+val DesertWhite = Color(0xFFF7F7F7)
+val LightBlue = Color(0xFF9AD9FF)
