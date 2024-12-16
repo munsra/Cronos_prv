@@ -49,10 +49,8 @@ class MockDatabase {
         players.value = currentList
     }
 
-    fun addPlayers(players: List<Player>) {
-        val currentList = players.toMutableList()
-        currentList.addAll(players)
-        this.players.value = currentList
+    fun addPlayers(newPlayerList: List<Player>) {
+        players.value += newPlayerList
     }
 
     fun addSession(newSession: Session, player: Player) {
