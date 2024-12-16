@@ -9,5 +9,7 @@ data class LeaderboardState(
     val leaders: List<Player> = emptyList(),
     val players: List<Player> = emptyList(),
     val errorMessage: UiText? = null,
-    val isNewSessionDialogOpen: Boolean = false
+    val isNewSessionDialogOpen: Boolean = false,
+    val isExportToExcelDialogOpen: Boolean = false,
+    val loadingMessage: UiText? = null
 )

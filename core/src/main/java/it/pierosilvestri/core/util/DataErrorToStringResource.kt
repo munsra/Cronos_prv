@@ -14,6 +14,7 @@ fun DataError.toUiText(): UiText {
         DataError.Remote.SERVER -> R.string.error_unknown
         DataError.Remote.SERIALIZATION -> R.string.error_serialization
         DataError.Remote.UNKNOWN -> R.string.error_unknown
+        DataError.Local.PLAYER_TO_EXCET -> R.string.error_player_to_excel
     }
 
     return UiText.StringResource(stringRes)

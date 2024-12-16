@@ -39,6 +39,9 @@ import it.pierosilvestri.core.domain.model.Player
 import it.pierosilvestri.core.domain.model.PlayerPictures
 import it.pierosilvestri.core.domain.model.Session
 import it.pierosilvestri.core.util.UiText
+import it.pierosilvestri.core_ui.components.ErrorDialog
+import it.pierosilvestri.leaderboard_presentation.leaderboard.components.LeaderboardTopAppBar
+import it.pierosilvestri.leaderboard_presentation.leaderboard.components.LoadingDialog
 import it.pierosilvestri.leaderboard_presentation.leaderboard.components.NewSessionDialog
 import it.pierosilvestri.leaderboard_presentation.leaderboard.components.PlayerList
 import it.pierosilvestri.leaderboard_presentation.leaderboard.components.PlayerListItem
@@ -69,13 +72,11 @@ fun LeaderboardScreenRoot(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LeaderboardScreen(
     state: LeaderboardState,
     onAction: (LeaderboardAction) -> Unit,
 ) {
-    val context = LocalContext.current
     Scaffold(
         floatingActionButton = {
             if (state.players.isNotEmpty()) {
@@ -89,12 +90,8 @@ fun LeaderboardScreen(
             }
         },
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = stringResource(R.string.leaderboard_screen_title)
-                    )
-                }
+            LeaderboardTopAppBar(
+                onClick = onAction
             )
         }
     ) {
@@ -122,26 +119,14 @@ fun LeaderboardScreen(
                 }
             }
             when {
-                state.isLoading -> {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        CircularProgressIndicator()
-                    }
-                }
-
                 state.errorMessage != null -> {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = state.errorMessage.asString(context),
-                            style = MaterialTheme.typography.headlineSmall,
-                            color = MaterialTheme.colorScheme.error
-                        )
-                    }
+                    ErrorDialog(
+                        errorMessage = state.errorMessage,
+                        onDismissRequest = {
+                            onAction(LeaderboardAction.DismissNewSessionDialog)
+                        }
+
+                    )
                 }
 
                 state.leaders.isEmpty() -> {
@@ -185,7 +170,11 @@ fun LeaderboardScreen(
                 }
             }
         }
-
+        if (state.isLoading){
+            LoadingDialog(
+                message = state.loadingMessage
+            )
+        }
         if (state.isNewSessionDialogOpen) {
             NewSessionDialog(
                 players = state.players,
@@ -195,6 +184,7 @@ fun LeaderboardScreen(
                 }
             )
         }
+
     }
 }
 
@@ -202,7 +192,7 @@ fun LeaderboardScreen(
 @Composable
 fun LeaderboardScreenPreview() {
     val state = LeaderboardState(
-        errorMessage = null,
+        isLoading = true,
         leaders = listOf(
             Player(
                 id = "1",

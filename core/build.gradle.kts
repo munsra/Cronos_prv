@@ -40,6 +40,8 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.kotlinx.serialization.json)
+
+    implementation(libs.bundles.poi)
     implementation(libs.bundles.koin)
     implementation(libs.bundles.ktor)
 
