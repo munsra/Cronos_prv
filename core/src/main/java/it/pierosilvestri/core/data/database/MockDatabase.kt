@@ -13,6 +13,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.jsonObject
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
  * This will be the singleton having the players records.
@@ -22,15 +24,17 @@ class MockDatabase {
     private val players = MutableStateFlow<List<Player>>(emptyList())
 
     init {
-
+        loadPlayersFromMockData()
     }
 
+    @OptIn(ExperimentalUuidApi::class)
     private fun loadPlayersFromMockData() {
         val jsonString = mockData
         val json = Json { ignoreUnknownKeys = true }
-        val jsonObject = json.parseToJsonElement(jsonString).jsonObject["players"]
+        val jsonObject = json.parseToJsonElement(jsonString).jsonObject["results"]
         val playersDto = json.decodeFromJsonElement<List<PlayerDto>>(jsonObject!!)
         for (playerDto in playersDto) {
+            playerDto.id = Uuid.random().toString()
             addPlayer(playerDto.toPlayer())
         }
     }
@@ -51,12 +55,19 @@ class MockDatabase {
         this.players.value = currentList
     }
 
-    fun addSession(session: Session, player: Player) {
+    fun addSession(newSession: Session, player: Player) {
         val sessions = mutableListOf<Session>()
         if (player.sessions != null) {
             sessions.addAll(player.sessions!!)
         }
-        sessions.add(session)
+        // If the session already exists, remove it from the list
+        // because I'm going to add it again with the new data.
+        for (session in sessions){
+            if(session.id == newSession.id){
+                sessions.remove(session)
+            }
+        }
+        sessions.add(newSession)
         player.sessions = sessions.toList()
     }
 

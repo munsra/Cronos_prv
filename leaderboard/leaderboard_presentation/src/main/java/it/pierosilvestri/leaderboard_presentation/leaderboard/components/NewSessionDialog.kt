@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
@@ -21,8 +22,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import it.pierosilvestri.core.domain.model.Player
+import it.pierosilvestri.core.domain.model.PlayerPictures
 import it.pierosilvestri.core.domain.model.Session
 import it.pierosilvestri.core_ui.components.CustomConfirmDialog
 import it.pierosilvestri.leaderboard_presentation.R
@@ -36,40 +39,26 @@ fun NewSessionDialog(
     players: List<Player>,
     onDismissRequest: () -> Unit,
     onConfirmation: (player: Player, session: Session) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     var selectedPlayer by remember { mutableStateOf<Player?>(null) }
     var sessionDistance by remember { mutableStateOf("") }
 
     CustomConfirmDialog(
+        modifier = modifier,
         dialogTitle = stringResource(R.string.new_session),
         onDismissRequest = { onDismissRequest() },
         content = {
             if (selectedPlayer == null) {
-                LazyColumn {
-                    items(players) { player ->
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable { selectedPlayer = player }
-                                .padding(8.dp),
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            Text(
-                                text = player.fullname,
-                                style = MaterialTheme.typography.bodyMedium
-                            )
-                            if (selectedPlayer == player) {
-                                Text(
-                                    text = "✔",
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    color = MaterialTheme.colorScheme.primary
-                                )
-                            }
-                        }
+                PlayerList(
+                    players = players,
+                    onPlayerClick = { player ->
+                        selectedPlayer = player
                     }
-                }
+                )
             }
             if (selectedPlayer != null) {
+
                 Column {
                     Row(
                         modifier = Modifier
@@ -78,9 +67,8 @@ fun NewSessionDialog(
                             .padding(8.dp),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        Text(
-                            text = selectedPlayer!!.fullname,
-                            style = MaterialTheme.typography.bodyMedium
+                        PlayerListItem(
+                            player = selectedPlayer!!
                         )
                         Text(
                             text = "✔",
@@ -124,4 +112,33 @@ fun NewSessionDialog(
             }
         }
     )
+}
+
+@Preview
+@Composable
+fun PreviewNewSessionDialog() {
+
+    val player = Player(
+        id = "1",
+        fullname = "John Doe",
+        pictures = PlayerPictures(
+            largePicture = "https://randomuser.me/api/portraits/men/91.jpg",
+            mediumPicture = "https://randomuser.me/api/portraits/men/91.jpg",
+            smallPicture = "https://randomuser.me/api/portraits/men/91.jpg",
+        ),
+        sessions = emptyList()
+    )
+
+    Scaffold {
+        Column(
+            modifier = Modifier
+                .padding(it)
+        ) {
+            NewSessionDialog(
+                players = listOf(player),
+                onDismissRequest = {},
+                onConfirmation = { _, _ -> }
+            )
+        }
+    }
 }
