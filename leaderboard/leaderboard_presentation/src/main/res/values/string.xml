@@ -9,4 +9,6 @@
     <string name="no_leader">There are no leaders</string>
     <string name="no_players">There are no player</string>
     <string name="download_from_remote">Download player from remote</string>
+    <string name="exporting_players_to_excel">Exporting players to excel</string>
+    <string name="loading">Loading...</string>
 </resources>

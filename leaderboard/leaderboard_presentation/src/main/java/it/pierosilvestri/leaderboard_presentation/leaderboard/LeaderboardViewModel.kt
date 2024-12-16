@@ -2,12 +2,11 @@ package it.pierosilvestri.leaderboard_presentation.leaderboard
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import it.pierosilvestri.core.domain.model.Player
+import androidx.lifecycle.viewmodel.compose.viewModel
 import it.pierosilvestri.core.domain.onError
 import it.pierosilvestri.core.domain.onSuccess
 import it.pierosilvestri.core.domain.repository.PlayerRepository
 import it.pierosilvestri.core.domain.repository.SessionRepository
-import it.pierosilvestri.core.util.UIEvent
 import it.pierosilvestri.core.util.toUiText
 import it.pierosilvestri.leaderboard_domain.use_case.CalculateLeaderboard
 import kotlinx.coroutines.channels.Channel
@@ -18,6 +17,10 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
+import it.pierosilvestri.core.domain.export.exportPlayersToExcel
+import it.pierosilvestri.core.util.UiText
+import it.pierosilvestri.leaderboard_presentation.R
+import kotlinx.coroutines.delay
 
 class LeaderboardViewModel(
     private val playerRepository: PlayerRepository,
@@ -84,6 +87,37 @@ class LeaderboardViewModel(
 
             LeaderboardAction.LoadPlayersFromRemote -> {
                 loadPlayerFromRemote()
+            }
+
+            LeaderboardAction.ExportToExcel -> {
+                _state.update {
+                    it.copy(
+                        isLoading = true,
+                        loadingMessage = UiText.StringResource(R.string.exporting_players_to_excel)
+                    )
+                }
+                viewModelScope.launch {
+                    delay(3000L)
+                    exportPlayersToExcel(state.value.players)
+                        .onSuccess { path ->
+                            _state.update {
+                                it.copy(
+                                    isLoading = false
+                                )
+                            }
+                        }
+                        .onError { error ->
+                            _state.update {
+                                it.copy(
+                                    isLoading = false,
+                                    errorMessage = error.toUiText()
+                                )
+                            }
+                        }
+                }
+            }
+            LeaderboardAction.SyncToCloud -> {
+
             }
         }
     }

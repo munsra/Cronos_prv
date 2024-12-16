@@ -11,4 +11,6 @@ sealed class LeaderboardAction {
         val player: Player,
         val session: Session
     ) : LeaderboardAction()
+    data object SyncToCloud: LeaderboardAction()
+    data object ExportToExcel: LeaderboardAction()
 }

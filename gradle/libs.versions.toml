@@ -20,6 +20,7 @@ navigation = "2.8.5"
 kotlinSerialization = "1.7.3"
 coil3 = "3.0.2"
 compose-chart = "0.1.0"
+poi = "5.2.3"
 
 core-module = ":core"
 core-ui-module = ":core-ui"
@@ -50,6 +51,8 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinSerialization" }
 compose-chart = { group = "io.github.ehsannarmani", name = "compose-charts", version.ref = "compose-chart" }
+poi = { group = "org.apache.poi", name="poi", version.ref = "poi" }
+poi-ooxml = { group = "org.apache.poi", name="poi-ooxml", version.ref = "poi" }
 
 koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
@@ -107,5 +110,10 @@ coil3 = [
     "coil-network-ktor2",
     "coil-network-ktor3",
     "coil-mp"
+]
+
+poi = [
+    "poi",
+    "poi-ooxml"
 ]
 
