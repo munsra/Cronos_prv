@@ -152,6 +152,12 @@ class StopwatchViewModel(
                     )
                 }
             }
+
+            is StopwatchAction.OnTabSelected -> {
+                _state.update {
+                    it.copy(selectedTabIndex = action.pageIndex)
+                }
+            }
         }
     }
 

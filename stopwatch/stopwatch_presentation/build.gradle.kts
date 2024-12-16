@@ -48,6 +48,8 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
+    implementation(libs.compose.chart)
+
     implementation(libs.bundles.koin)
     implementation(libs.bundles.coil3)
     

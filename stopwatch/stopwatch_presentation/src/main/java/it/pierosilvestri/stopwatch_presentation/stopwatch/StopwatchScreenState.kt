@@ -25,4 +25,5 @@ data class StopwatchScreenState(
     val isConfirmSaveSessionDialogVisible: Boolean = false,
     val isDeleteDialogVisible: Boolean = false,
     val confirmMessage: UiText? = null,
+    val selectedTabIndex: Int = 0,
 )
