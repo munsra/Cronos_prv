@@ -113,9 +113,9 @@ class StopwatchViewModel(
             StopwatchAction.OnBackButtonPressed -> {
                 _state.update {
                     it.copy(
-                        isConfirmCancelSessionDialogVisible = true,
-                        isConfirmSaveSessionDialogVisible = false,
-                        confirmMessage = UiText.DynamicString("Are you sure you want to cancel the session?")
+                        isConfirmCancelSessionDialogVisible = false,
+                        isConfirmSaveSessionDialogVisible = true,
+                        confirmMessage = UiText.DynamicString("This session will be saved.")
                     )
                 }
             }
@@ -130,7 +130,8 @@ class StopwatchViewModel(
             }
 
             StopwatchAction.OnConfirmDialogConfirm -> {
-                if(_state.value.isConfirmSaveSessionDialogVisible){
+                if(_state.value.isConfirmSaveSessionDialogVisible || _state.value.isConfirmCancelSessionDialogVisible) {
+                    stopwatchService.resetStopwatch()
                     _state.update {
                         it.copy(
                             isConfirmCancelSessionDialogVisible = false,
@@ -139,8 +140,6 @@ class StopwatchViewModel(
                         )
                     }
                     saveSession()
-                }else if(_state.value.isConfirmCancelSessionDialogVisible){
-                    deleteSession()
                 }
             }
             StopwatchAction.OnConfirmDialogDismiss -> {

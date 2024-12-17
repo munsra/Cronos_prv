@@ -192,7 +192,7 @@ fun LeaderboardScreen(
 @Composable
 fun LeaderboardScreenPreview() {
     val state = LeaderboardState(
-        isLoading = true,
+        isLoading = false,
         leaders = listOf(
             Player(
                 id = "1",
