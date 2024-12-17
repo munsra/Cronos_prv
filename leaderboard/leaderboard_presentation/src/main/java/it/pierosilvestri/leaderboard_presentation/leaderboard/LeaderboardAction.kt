@@ -13,4 +13,5 @@ sealed class LeaderboardAction {
     ) : LeaderboardAction()
     data object SyncToCloud: LeaderboardAction()
     data object ExportToExcel: LeaderboardAction()
+    data object DismissErrorDialog: LeaderboardAction()
 }

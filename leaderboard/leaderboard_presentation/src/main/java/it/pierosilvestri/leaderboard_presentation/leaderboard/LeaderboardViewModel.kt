@@ -119,6 +119,14 @@ class LeaderboardViewModel(
             LeaderboardAction.SyncToCloud -> {
 
             }
+
+            LeaderboardAction.DismissErrorDialog -> {
+                _state.update {
+                    it.copy(
+                        errorMessage = null
+                    )
+                }
+            }
         }
     }
 

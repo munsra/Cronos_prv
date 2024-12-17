@@ -119,15 +119,6 @@ fun LeaderboardScreen(
                 }
             }
             when {
-                state.errorMessage != null -> {
-                    ErrorDialog(
-                        errorMessage = state.errorMessage,
-                        onDismissRequest = {
-                            onAction(LeaderboardAction.DismissNewSessionDialog)
-                        }
-
-                    )
-                }
 
                 state.leaders.isEmpty() -> {
                     Box(
@@ -184,7 +175,14 @@ fun LeaderboardScreen(
                 }
             )
         }
-
+        if (state.errorMessage != null){
+            ErrorDialog(
+                errorMessage = state.errorMessage,
+                onDismissRequest = {
+                    onAction(LeaderboardAction.DismissErrorDialog)
+                }
+            )
+        }
     }
 }
 
