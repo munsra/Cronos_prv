@@ -1,7 +1,6 @@
 package it.pierosilvestri.leaderboard_domain.use_case
 
 import it.pierosilvestri.core.domain.model.Player
-import it.pierosilvestri.core.domain.model.Session
 
 /**
  * This class is used to calculate the leaderboard.

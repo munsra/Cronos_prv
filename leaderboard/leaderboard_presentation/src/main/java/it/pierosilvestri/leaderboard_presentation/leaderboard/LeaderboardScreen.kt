@@ -119,15 +119,6 @@ fun LeaderboardScreen(
                 }
             }
             when {
-                state.errorMessage != null -> {
-                    ErrorDialog(
-                        errorMessage = state.errorMessage,
-                        onDismissRequest = {
-                            onAction(LeaderboardAction.DismissNewSessionDialog)
-                        }
-
-                    )
-                }
 
                 state.leaders.isEmpty() -> {
                     Box(
@@ -184,7 +175,14 @@ fun LeaderboardScreen(
                 }
             )
         }
-
+        if (state.errorMessage != null){
+            ErrorDialog(
+                errorMessage = state.errorMessage,
+                onDismissRequest = {
+                    onAction(LeaderboardAction.DismissErrorDialog)
+                }
+            )
+        }
     }
 }
 
@@ -192,7 +190,7 @@ fun LeaderboardScreen(
 @Composable
 fun LeaderboardScreenPreview() {
     val state = LeaderboardState(
-        isLoading = true,
+        isLoading = false,
         leaders = listOf(
             Player(
                 id = "1",

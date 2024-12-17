@@ -21,6 +21,7 @@ kotlinSerialization = "1.7.3"
 coil3 = "3.0.2"
 compose-chart = "0.1.0"
 poi = "5.2.3"
+truth = "1.4.4"
 
 core-module = ":core"
 core-ui-module = ":core-ui"
@@ -54,12 +55,16 @@ compose-chart = { group = "io.github.ehsannarmani", name = "compose-charts", ver
 poi = { group = "org.apache.poi", name="poi", version.ref = "poi" }
 poi-ooxml = { group = "org.apache.poi", name="poi-ooxml", version.ref = "poi" }
 
+truth = { group = "com.google.truth", name = "truth", version.ref = "truth" }
+
 koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
 koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin" }
 koin-androidx-compose-navigation = { module = "io.insert-koin:koin-androidx-compose-navigation", version.ref = "koin" }
+koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin"}
+koin-test-junit = { module = "io.insert-koin:koin-test-junit4", version.ref = "koin" }
 
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }

@@ -38,12 +38,14 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
 
+
     implementation(libs.bundles.koin)
     implementation(libs.bundles.poi)
 
     implementation(project(libs.versions.core.module.get()))
 
     testImplementation(libs.junit)
+    testImplementation(libs.truth)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
