@@ -11,12 +11,12 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.google.common.truth.Truth.assertThat
 import it.pierosilvestri.calorytracker.navigation.Route
-import it.pierosilvestri.core.data.database.MockDatabase
+import it.pierosilvestri.core.data.database.mock.MockDatabase
 import it.pierosilvestri.core.data.remote.RemotePlayerDataSource
 import it.pierosilvestri.core.data.remote.mock.MockKtorRemotePlayerDataSource
 import it.pierosilvestri.core.data.repository.mock.MockLapRepositoryImpl
 import it.pierosilvestri.core.data.repository.mock.MockPlayerRepositoryImpl
-import it.pierosilvestri.core.data.repository.mock.MockSessionRepositoyImpl
+import it.pierosilvestri.core.data.repository.mock.MockSessionRepositoryImpl
 import it.pierosilvestri.core.domain.repository.LapRepository
 import it.pierosilvestri.core.domain.repository.PlayerRepository
 import it.pierosilvestri.core.domain.repository.SessionRepository
@@ -50,7 +50,7 @@ class CronosOverviewE2E {
         mockDatabase = MockDatabase()
         remotePlayerDataSource = MockKtorRemotePlayerDataSource()
         playerRepository = MockPlayerRepositoryImpl(mockDatabase, remotePlayerDataSource)
-        sessionRepository = MockSessionRepositoyImpl(mockDatabase)
+        sessionRepository = MockSessionRepositoryImpl(mockDatabase)
         lapRepository = MockLapRepositoryImpl(mockDatabase)
 
 
