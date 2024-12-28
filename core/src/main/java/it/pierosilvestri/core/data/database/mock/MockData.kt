@@ -1,4 +1,4 @@
-package it.pierosilvestri.core.data.database
+package it.pierosilvestri.core.data.database.mock
 
 val mockData = "{\n" +
         "  \"results\": [\n" +

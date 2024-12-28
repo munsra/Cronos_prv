@@ -77,6 +77,12 @@ fun LeaderboardScreen(
     state: LeaderboardState,
     onAction: (LeaderboardAction) -> Unit,
 ) {
+    Column {
+        Text(
+            text = "Leaderboard",
+            style = MaterialTheme.typography.headlineLarge
+        )
+    }
     Scaffold(
         floatingActionButton = {
             if (state.players.isNotEmpty()) {

@@ -1,6 +1,7 @@
 package it.pierosilvestri.core.data.repository.mock
 
-import it.pierosilvestri.core.data.database.MockDatabase
+import it.pierosilvestri.core.data.database.mock.MockDatabase
+import it.pierosilvestri.core.data.database.model.PlayerEntity
 import it.pierosilvestri.core.data.remote.RemotePlayerDataSource
 import it.pierosilvestri.core.domain.DataError
 import it.pierosilvestri.core.domain.Result

@@ -1,5 +1,6 @@
 package it.pierosilvestri.core.domain.repository
 
+import it.pierosilvestri.core.data.database.model.PlayerEntity
 import it.pierosilvestri.core.domain.DataError
 import it.pierosilvestri.core.domain.Result
 import it.pierosilvestri.core.domain.model.Player

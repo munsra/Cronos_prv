@@ -1,8 +1,5 @@
-package it.pierosilvestri.core.data.database
+package it.pierosilvestri.core.data.database.mock
 
-import android.content.Context
-import androidx.lifecycle.MutableLiveData
-import it.pierosilvestri.core.R
 import it.pierosilvestri.core.data.dto.PlayerDto
 import it.pierosilvestri.core.domain.mapper.toPlayer
 import it.pierosilvestri.core.domain.model.Lap

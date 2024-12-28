@@ -169,7 +169,7 @@ class StopwatchViewModel(
 
     private fun saveSession() {
         viewModelScope.launch {
-            sessionRepository.addSession(_state.value.session!!, _state.value.player!!)
+            sessionRepository.saveSession(_state.value.session!!, _state.value.player!!)
             _uiEvent.send(StopwatchEvent.NavigateBack)
         }
     }

@@ -18,6 +18,7 @@ import kotlinx.coroutines.launch
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 import it.pierosilvestri.core.domain.export.exportPlayersToExcel
+import it.pierosilvestri.core.domain.mapper.toPlayer
 import it.pierosilvestri.core.util.UiText
 import it.pierosilvestri.leaderboard_presentation.R
 import kotlinx.coroutines.delay
@@ -33,6 +34,8 @@ class LeaderboardViewModel(
 
     private val _uiEvent = Channel<LeaderboardEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
+
+
 
     /**
      * Get the players from the repository and calculate the leaderboard
@@ -73,7 +76,7 @@ class LeaderboardViewModel(
                     )
                 }
                 viewModelScope.launch {
-                    sessionRepository.addSession(session = action.session, player = action.player)
+                    sessionRepository.saveSession(session = action.session, player = action.player)
                     _uiEvent.send(LeaderboardEvent.OpenNextPage(action.player, action.session))
                 }
             }
@@ -148,9 +151,6 @@ class LeaderboardViewModel(
             playerRepository
                 .getPlayersFromRemote()
                 .onSuccess { playerResults ->
-                    playerResults.forEach {
-                        it.id = Uuid.random().toString()
-                    }
                     playerRepository.addPlayers(playerResults)
                     _state.update {
                         it.copy(

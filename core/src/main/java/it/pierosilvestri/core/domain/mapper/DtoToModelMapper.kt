@@ -10,6 +10,7 @@ import it.pierosilvestri.core.domain.model.PlayerPictures
 import it.pierosilvestri.core.domain.model.Session
 import java.util.Calendar
 import java.util.Date
+import java.util.UUID
 
 /**
  * This is a mapper where I can convert my Dto entities to Model data.

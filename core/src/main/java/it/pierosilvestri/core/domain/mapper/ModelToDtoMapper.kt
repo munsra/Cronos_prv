@@ -9,6 +9,7 @@ import it.pierosilvestri.core.domain.model.Lap
 import it.pierosilvestri.core.domain.model.Player
 import it.pierosilvestri.core.domain.model.PlayerPictures
 import it.pierosilvestri.core.domain.model.Session
+import java.util.UUID
 
 /**
  * This is a mapper where I can convert my Model data to Dto.
@@ -36,10 +37,10 @@ fun PlayerPictures.toPlayerPicturesDto(): PlayerPicturesDto {
 
 fun Session.toSessionDto(): SessionDto {
     return SessionDto(
-        id = id,
+        id = id ?: UUID.randomUUID().toString(),
         distance = distance,
         startDate = startDate.toString(),
-        laps = laps?.map { it.toLapDto() }
+        laps = laps.map { it.toLapDto() }
     )
 }
 

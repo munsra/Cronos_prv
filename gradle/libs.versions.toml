@@ -22,6 +22,8 @@ coil3 = "3.0.2"
 compose-chart = "0.1.0"
 poi = "5.2.3"
 truth = "1.4.4"
+ksp = "2.0.21-1.0.27"
+room = "2.6.1"
 
 core-module = ":core"
 core-ui-module = ":core-ui"
@@ -80,6 +82,11 @@ coil-network-ktor2 = { module = "io.coil-kt.coil3:coil-network-ktor2", version.r
 coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil3" }
 coil-mp = { module = "io.coil-kt.coil3:coil", version.ref = "coil3" }
 
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room"}
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+room-testing = { group = "androidx.room", name = "room-testing", version.ref = "room"}
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -89,6 +96,7 @@ android-library = { id = "com.android.library", version.ref = "agp" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
 jetbrains-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-parcelize = { id = "kotlin-parcelize"}
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
 
 [bundles]
