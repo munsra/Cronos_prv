@@ -9,7 +9,7 @@ import it.pierosilvestri.stopwatch_presentation.di.stopwatchPresentationModule
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 
-fun initKoin(config: KoinAppDeclaration? = null) {
+fun initTestKoin(config: KoinAppDeclaration? = null) {
     startKoin {
         config?.invoke(this)
         modules(

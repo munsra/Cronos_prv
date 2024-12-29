@@ -13,10 +13,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import it.pierosilvestri.core.domain.model.Player
 import it.pierosilvestri.core.domain.model.PlayerPictures
+import it.pierosilvestri.leaderboard_presentation.leaderboard.LeaderboardTestConst
 
 @Composable
 fun PlayerList(
@@ -26,7 +28,7 @@ fun PlayerList(
     scrollState: LazyListState = rememberLazyListState(),
 ) {
     LazyColumn(
-        modifier = modifier,
+        modifier = modifier.testTag(LeaderboardTestConst.PLAYER_LIST),
         state = scrollState,
         verticalArrangement = Arrangement.spacedBy(12.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -39,7 +41,8 @@ fun PlayerList(
                 player = player,
                 modifier = Modifier
                     .widthIn(max = 300.dp)
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .testTag(String.format(LeaderboardTestConst.PLAYER_SELECTED, player.id)),
                 onClick = {
                     onPlayerClick(it)
                 }

@@ -1,5 +1,7 @@
 package it.pierosilvestri.core.di
 
+import androidx.room.Room
+import it.pierosilvestri.core.data.database.AppDatabase
 import it.pierosilvestri.core.data.database.mock.MockDatabase
 import it.pierosilvestri.core.data.database.provideDatabase
 import it.pierosilvestri.core.data.database.provideLapDao
@@ -38,6 +40,18 @@ val databaseModule: Module = module {
     singleOf(::PlayerRepositoryImpl).bind<PlayerRepository>()
     singleOf(::SessionRepositoryImpl).bind<SessionRepository>()
     singleOf(::LapRepositoryImpl).bind<LapRepository>()
+}
+
+val testDatabaseModule = module {
+    single {
+        Room.inMemoryDatabaseBuilder(get(), AppDatabase::class.java)
+            .allowMainThreadQueries() // For testing only
+            .build()
+    }
+    single { providePlayerDao(get()) }
+    single { provideSessionDao(get()) }
+    single { provideLapDao(get()) }
+    single { providePlayerPicturesDao(get()) }
 }
 
 val databaseMockModule: Module = module {

@@ -50,13 +50,15 @@ import it.pierosilvestri.stopwatch_presentation.stopwatch.components.StopwatchSe
 
 @Composable
 fun StopwatchScreenRoot(
+    playerId: String,
+    sessionId: String,
     viewModel: StopwatchViewModel = koinViewModel(),
     onNavigateBack: () -> Unit,
 ) {
 
     val state by viewModel.state.collectAsStateWithLifecycle()
     LaunchedEffect(key1 = true) {
-        viewModel.loadData()
+        viewModel.loadData(playerId, sessionId)
     }
 
     LaunchedEffect(key1 = true) {
