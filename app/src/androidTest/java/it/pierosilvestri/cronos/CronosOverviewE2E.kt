@@ -18,7 +18,9 @@ import it.pierosilvestri.leaderboard_presentation.leaderboard.LeaderboardScreenR
 import it.pierosilvestri.leaderboard_presentation.leaderboard.LeaderboardTestConst
 import it.pierosilvestri.leaderboard_presentation.leaderboard.LeaderboardViewModel
 import it.pierosilvestri.stopwatch_presentation.stopwatch.StopwatchScreenRoot
+import it.pierosilvestri.stopwatch_presentation.stopwatch.StopwatchTestConst
 import it.pierosilvestri.stopwatch_presentation.stopwatch.StopwatchViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -132,11 +134,10 @@ class CronosOverviewE2E: KoinTest {
         composeRule
             .onNodeWithTag(LeaderboardTestConst.NEW_SESSION_DIALOG)
             .assertIsNotDisplayed()
+
         composeRule
             .onNodeWithTag(LeaderboardTestConst.BUTTON_NEW_SESSION)
             .assertIsDisplayed()
-        composeRule
-            .onNodeWithTag(LeaderboardTestConst.BUTTON_NEW_SESSION)
             .performClick()
         composeRule
             .onNodeWithTag(LeaderboardTestConst.NEW_SESSION_DIALOG)
@@ -155,5 +156,10 @@ class CronosOverviewE2E: KoinTest {
                 ?.route
                 ?.startsWith(Route.STOPWATCH)
         ).isTrue()
+
+        composeRule.onNodeWithText("00:00:00").isDisplayed()
+
+        composeRule.onNodeWithTag(StopwatchTestConst.STOPWATCH_BUTTON).assertIsDisplayed().performClick()
+
     }
 }

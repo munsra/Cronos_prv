@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
@@ -21,6 +22,7 @@ import it.pierosilvestri.core_ui.theme.Red
 import it.pierosilvestri.stopwatch_domain.utils.StopwatchState
 import it.pierosilvestri.stopwatch_presentation.R
 import it.pierosilvestri.stopwatch_presentation.stopwatch.StopwatchAction
+import it.pierosilvestri.stopwatch_presentation.stopwatch.StopwatchTestConst
 
 @Composable
 fun StopwatchButtons(
@@ -35,7 +37,8 @@ fun StopwatchButtons(
         Button(
             modifier = Modifier
                 .weight(1f)
-                .fillMaxHeight(0.5f),
+                .fillMaxHeight(0.5f)
+                .testTag(StopwatchTestConst.STOPWATCH_BUTTON),
             onClick = {
                 when (stopwatchState) {
                     StopwatchState.Started -> onAction(StopwatchAction.OnLap)
@@ -58,7 +61,8 @@ fun StopwatchButtons(
         Button(
             modifier = Modifier
                 .weight(1f)
-                .fillMaxHeight(0.5f),
+                .fillMaxHeight(0.5f)
+                .testTag(StopwatchTestConst.STOPWATCH_BUTTON_STOP),
             onClick = {
                 when (stopwatchState) {
                     StopwatchState.Started -> onAction(StopwatchAction.OnStop)
