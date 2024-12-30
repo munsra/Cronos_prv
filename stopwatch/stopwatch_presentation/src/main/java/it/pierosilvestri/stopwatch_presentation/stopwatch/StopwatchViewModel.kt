@@ -4,8 +4,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import it.pierosilvestri.core.domain.model.Lap
-import it.pierosilvestri.core.domain.model.Player
-import it.pierosilvestri.core.domain.model.Session
 import it.pierosilvestri.core.domain.repository.PlayerRepository
 import it.pierosilvestri.core.domain.repository.SessionRepository
 import it.pierosilvestri.core.util.UiText
@@ -21,14 +19,10 @@ import kotlinx.coroutines.launch
 
 
 class StopwatchViewModel(
-    private val savedStateHandle: SavedStateHandle,
     private val stopwatchService: StopwatchService,
     private val playerRepository: PlayerRepository,
     private val sessionRepository: SessionRepository,
 ) : ViewModel() {
-
-    val playerId = savedStateHandle.get<String>("playerId")
-    val sessionId = savedStateHandle.get<String>("sessionId")
 
     private val _state = MutableStateFlow(StopwatchScreenState())
     val state = _state.asStateFlow()
@@ -54,10 +48,10 @@ class StopwatchViewModel(
     /**
      * Loads the data of the player and the session from the repository
      */
-    fun loadData() {
+    fun loadData(playerId: String, sessionId: String) {
         viewModelScope.launch {
-            val player = playerRepository.getPlayer(playerId!!)
-            val session = sessionRepository.getSession(sessionId!!)
+            val player = playerRepository.getPlayer(playerId)
+            val session = sessionRepository.getSession(sessionId)
             _state.update {
                 it.copy(
                     player = player,

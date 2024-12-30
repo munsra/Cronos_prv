@@ -2,6 +2,7 @@ package it.pierosilvestri.calorytracker.navigation
 
 import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -12,8 +13,7 @@ import it.pierosilvestri.stopwatch_presentation.stopwatch.StopwatchScreenRoot
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun Navigator(){
-    val navController = rememberNavController()
+fun Navigator(navController: NavHostController = rememberNavController()){
     NavHost(
         navController = navController,
         startDestination = Route.LEADERBOARD
@@ -38,7 +38,11 @@ fun Navigator(){
                 },
             )
         ) {
+            val playerId = it.arguments?.getString("playerId")
+            val sessionId = it.arguments?.getString("sessionId")
             StopwatchScreenRoot(
+                playerId = playerId!!,
+                sessionId = sessionId!!,
                 onNavigateBack = {
                     navController.popBackStack()
                 }

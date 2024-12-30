@@ -10,6 +10,8 @@ import it.pierosilvestri.core.domain.mapper.toPlayer
 import it.pierosilvestri.core.domain.model.Player
 import it.pierosilvestri.core.domain.repository.PlayerRepository
 import kotlinx.coroutines.flow.Flow
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 class MockPlayerRepositoryImpl(
     private val mockDatabase: MockDatabase,
@@ -36,7 +38,11 @@ class MockPlayerRepositoryImpl(
         mockDatabase.addPlayer(player)
     }
 
+    @OptIn(ExperimentalUuidApi::class)
     override suspend fun addPlayers(players: List<Player>) {
+        players.forEach {
+            it.id = Uuid.random().toString()
+        }
         mockDatabase.addPlayers(players)
     }
 }

@@ -1,5 +1,6 @@
 package it.pierosilvestri.leaderboard_presentation.leaderboard
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,6 +29,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -43,7 +45,6 @@ import it.pierosilvestri.core_ui.components.ErrorDialog
 import it.pierosilvestri.leaderboard_presentation.leaderboard.components.LeaderboardTopAppBar
 import it.pierosilvestri.leaderboard_presentation.leaderboard.components.LoadingDialog
 import it.pierosilvestri.leaderboard_presentation.leaderboard.components.NewSessionDialog
-import it.pierosilvestri.leaderboard_presentation.leaderboard.components.PlayerList
 import it.pierosilvestri.leaderboard_presentation.leaderboard.components.PlayerListItem
 
 import org.koin.androidx.compose.koinViewModel
@@ -87,6 +88,8 @@ fun LeaderboardScreen(
         floatingActionButton = {
             if (state.players.isNotEmpty()) {
                 FloatingActionButton(
+                    modifier = Modifier
+                        .testTag(LeaderboardTestConst.BUTTON_NEW_SESSION),
                     onClick = {
                         onAction(LeaderboardAction.OpenNewSession)
                     },
@@ -141,7 +144,9 @@ fun LeaderboardScreen(
                 }
 
                 else -> {
-                    LazyColumn {
+                    LazyColumn(
+                        modifier = Modifier.testTag(LeaderboardTestConst.LEADERBOARD_LIST)
+                    ) {
                         item {
                             HorizontalDivider()
                         }
@@ -158,6 +163,12 @@ fun LeaderboardScreen(
                                 )
                                 PlayerListItem(
                                     player = it,
+                                    modifier = Modifier.testTag(
+                                        String.format(
+                                            LeaderboardTestConst.LEADERBOARD_ITEM,
+                                            position
+                                        )
+                                    )
                                 )
                             }
 
@@ -178,7 +189,8 @@ fun LeaderboardScreen(
                 onDismissRequest = { onAction(LeaderboardAction.DismissNewSessionDialog) },
                 onConfirmation = { player, session ->
                     onAction(LeaderboardAction.ConfirmNewSession(player, session))
-                }
+                },
+                modifier = Modifier.testTag(LeaderboardTestConst.NEW_SESSION_DIALOG)
             )
         }
         if (state.errorMessage != null){
