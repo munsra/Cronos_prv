@@ -20,6 +20,10 @@ import kotlin.uuid.Uuid
 class MockDatabase {
     private val players = MutableStateFlow<List<Player>>(emptyList())
 
+    init {
+        loadPlayersFromMockData()
+    }
+
     @OptIn(ExperimentalUuidApi::class)
     fun loadPlayersFromMockData() {
         val jsonString = mockData

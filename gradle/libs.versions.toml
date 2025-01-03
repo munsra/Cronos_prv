@@ -33,6 +33,7 @@ leaderboard-data-module = ":leaderboard:leaderboard_data"
 leaderboard-domain-module = ":leaderboard:leaderboard_domain"
 leaderboard-presentation-module = ":leaderboard:leaderboard_presentation"
 uiTooling = "1.8.0-alpha07"
+accessibilityTestFramework = "4.1.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -86,6 +87,7 @@ room-compiler = { group = "androidx.room", name = "room-compiler", version.ref =
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-testing = { group = "androidx.room", name = "room-testing", version.ref = "room"}
+accessibility-test-framework = { group = "com.google.android.apps.common.testing.accessibility.framework", name = "accessibility-test-framework", version.ref = "accessibilityTestFramework" }
 
 
 [plugins]
