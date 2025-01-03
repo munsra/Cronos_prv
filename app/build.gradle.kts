@@ -17,7 +17,7 @@ android {
 
         testInstrumentationRunner = "it.pierosilvestri.cronos.InstrumentationTestRunner"
     }
-
+    
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -27,6 +27,21 @@ android {
             )
         }
     }
+
+    flavorDimensions.add("environment")
+
+    productFlavors {
+        create("dev") {
+            dimension = "environment"
+            applicationIdSuffix = ".dev"
+            versionNameSuffix = "-dev"
+        }
+        create("prod") {
+            dimension = "environment"
+            applicationIdSuffix = ".prod"
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -63,6 +78,7 @@ dependencies {
     implementation(project(libs.versions.leaderboard.data.module.get()))
     implementation(project(libs.versions.leaderboard.domain.module.get()))
     implementation(project(libs.versions.leaderboard.presentation.module.get()))
+    implementation(libs.accessibility.test.framework)
 
 
     testImplementation(libs.junit)
